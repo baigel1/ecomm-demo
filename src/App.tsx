@@ -1,25 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
+import Header from './components/Header'
+import { AnswersHeadlessProvider } from '@yext/answers-headless-react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from 'react-router-dom'
+
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Router>
+      <AnswersHeadlessProvider
+        apiKey='a59283fd20d998993e96988674ef4dbc'
+        experienceKey='h_blue_pim'
+        locale='en'
+      >
+        <Header />
+        <Routes>
+          {/* <Route path='' element={<SearchResults />}/> */}
+        </Routes>
+      </AnswersHeadlessProvider>
+    </Router>
+    
+    </>
   );
 }
 
