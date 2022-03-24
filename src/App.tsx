@@ -1,5 +1,6 @@
 import React from 'react';
-import Header from './components/Header'
+import Header from './components/Header';
+import SearchResults from './components/SeachResults';
 import { AnswersHeadlessProvider } from '@yext/answers-headless-react';
 import {
   BrowserRouter as Router,
@@ -20,6 +21,7 @@ function App() {
         locale='en'
       >
         <Header />
+        <SearchResults />
         <Routes>
           {/* <Route path='' element={<SearchResults />}/> */}
         </Routes>
