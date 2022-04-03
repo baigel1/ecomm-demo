@@ -10,7 +10,7 @@ const Header = () => {
             <div className="flex flex-col items-center">
                 <img src={logo} className="h-10 my-5" alt="yext logo"/>
                 <div className="my-2">
-                    Find some dope clothes below
+                    Find some cool clothes below
                 </div>
                 <div className="my-2">
                     <SearchBar placeholder="search here..."/>

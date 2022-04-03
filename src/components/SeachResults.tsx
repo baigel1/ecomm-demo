@@ -1,5 +1,5 @@
 import React from 'react'
-import { UniversalResults } from '@yext/answers-react-components'
+import { VerticalResults, StandardCard } from '@yext/answers-react-components'
 
 
 /**
@@ -11,13 +11,9 @@ import { UniversalResults } from '@yext/answers-react-components'
  */
 const SearchResults = () => {
     return (
-        <UniversalResults 
-        verticalConfigMap={{
-            'products': {
-                label: "cloth",
-                
-            }
-        }}
+        <VerticalResults 
+        CardComponent={StandardCard}
+        
         />
     )
 }

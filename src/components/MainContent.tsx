@@ -1,4 +1,5 @@
-import react from 'react'
+import { AppliedFilters, ResultsCount} from '@yext/answers-react-components'
+import React from 'react'
 import SearchResults from './SeachResults'
 
 /* 
@@ -9,9 +10,19 @@ example from algolia: https://react-instantsearch.netlify.app/examples/e-commerc
 
 */
 const MainContent = () => {
+
     return (
         <>
+            <ResultsCount 
+                customCssClasses={{
+                    resultCountText: "text-xl text-cyan-500"
+                }}
+            />
+            <AppliedFilters 
+
+            />
             <SearchResults />
+            
         </>
     )
 }
