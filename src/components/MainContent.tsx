@@ -15,9 +15,17 @@ const MainContent = () => {
     
     return (
         <>
-            <ResultsCount />
+
             <FacetSection />
+
+            <ResultsCount 
+                customCssClasses={{
+                    resultCountText: "text-xl text-cyan-500"
+                }}
+            />
+          
             <SearchResults />
+            
         </>
     )
 }
