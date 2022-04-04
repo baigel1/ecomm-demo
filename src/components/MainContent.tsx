@@ -1,5 +1,7 @@
-import react from 'react'
+import React from 'react'
 import SearchResults from './SeachResults'
+import { ResultsCount } from '@yext/answers-react-components'
+import FacetSection from './FacetSection'
 
 /* 
 on top we want sorting controls
@@ -9,8 +11,12 @@ example from algolia: https://react-instantsearch.netlify.app/examples/e-commerc
 
 */
 const MainContent = () => {
+    
+    
     return (
         <>
+            <ResultsCount />
+            <FacetSection />
             <SearchResults />
         </>
     )
