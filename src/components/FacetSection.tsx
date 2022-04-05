@@ -7,11 +7,9 @@ const FacetSection = () => {
     return (
         <>
         <Facets >
-            {facets => 
-            
-            
-            {
-                console.log(facets)
+            {facets => {
+                console.log(`facets are: ${facets}`)
+                
                 return (
                     <div>
                         here are facets

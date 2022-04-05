@@ -12,7 +12,6 @@ example from algolia: https://react-instantsearch.netlify.app/examples/e-commerc
 */
 const MainContent = () => {
     
-    
     return (
         <>
 
