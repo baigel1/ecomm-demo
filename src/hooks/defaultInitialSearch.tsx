@@ -94,7 +94,7 @@ export default function usePageSetupEffect(verticalKey?: string) {
       //   searchIntents = await getSearchIntents(answersActions, !!verticalKey) || [];
       //   await updateLocationIfNeeded(answersActions, searchIntents);
       // }
-      executeSearch(answersActions, !!verticalKey);
+      executeSearch(answersActions, !!verticalKey); //comment out for removing default initital search
     };
     executeQuery();
   }, [answersActions, verticalKey]);

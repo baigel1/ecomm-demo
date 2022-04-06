@@ -2,12 +2,7 @@ import React from 'react';
 import Header from './components/Header';
 import { AnswersHeadlessProvider } from '@yext/answers-headless-react';
 import MainContent from './components/MainContent';
-// import {
-//   BrowserRouter as Router,
-//   Routes,
-//   Route,
-//   Link
-// } from 'react-router-dom'
+
 
 import './App.css';
 

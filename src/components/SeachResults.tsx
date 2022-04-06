@@ -1,5 +1,5 @@
-import React from 'react'
-import { VerticalResults } from '@yext/answers-react-components'
+import React, {useEffect} from 'react'
+import { VerticalResults, ResultsCount } from '@yext/answers-react-components'
 import ClothingCard from '../cards/ClothingCard'
 import { useAnswersState } from '@yext/answers-headless-react'
 import usePageSetupEffect from '../hooks/defaultInitialSearch';
@@ -16,30 +16,56 @@ const SearchResults = () => {
     const verticalResults = useAnswersState(state => state.vertical.results) || [""];
     usePageSetupEffect("products");
 
-    return (
-        <VerticalResults
-            displayAllOnNoResults={false}
-            customCssClasses={{ results: "text-left grid grid-cols-4 gap-6 ", container: "pt-6" }}
-            CardComponent={
-                ({ result }) => {
-                    console.log(`result in vertical: ${result}`)
-                return (
-                <ClothingCard
-                    result={result}
-                    // cssCompositionMethod={"replace"}
-                    customCssClasses={{ container: "flex flex-col justify-start rounded-lg mb-4 p-4 shadow-lg bg-white hover:shadow-xl hover:cursor-pointer", header: "font-medium" }}
-                    fieldMappings={{
-                        title: {
-                            apiName: "name",
-                            mappingType: "FIELD"
-                        }
-                    }}
-                />
-                )
-                }
-            }
+    // useEffect(() => {
+    //     console.log(verticalResults)
+        
+    // }, [verticalResults])
 
-        />
+    
+    return (
+        <>
+            {verticalResults.length !== 0 ?
+            <ResultsCount 
+                customCssClasses={{
+                    resultCountText: "text-xl text-cyan-500"
+                }}
+            />
+            :
+            <div className="bg-slate-500 text-xl">No Results Available, Try another search!</div>
+            }
+            <VerticalResults
+                displayAllOnNoResults={false}
+                customCssClasses={{ results: "text-left grid grid-cols-4 gap-6 ", container: "pt-6" }}
+                CardComponent={
+                    ({ result }) => {
+                        
+                    return (
+                    <ClothingCard
+                        result={result}
+                        // cssCompositionMethod={"replace"}
+                        customCssClasses={{ container: "flex flex-col justify-start rounded-lg mb-4 p-4 shadow-lg bg-white hover:shadow-xl hover:cursor-pointer", header: "font-medium" }}
+                        fieldMappings={{
+                            title: {
+                                apiName: "name",
+                                mappingType: "FIELD"
+                            },
+                            description: {
+                                apiName: "price.value",
+                                mappingType: "FIELD"
+                            }
+                            // },
+                            // cta1: {
+                            //     apiName: 'c_primaryCTA.label',
+                            //     mappingType: 'FIELD'
+                            // }
+                        }}
+                    />
+                    )
+                    }
+                }
+
+            />
+        </>
 
 
 

@@ -5,22 +5,23 @@ import { Facets } from '@yext/answers-react-components/lib/components/Filters';
 
 const FacetSection = () => {
     return (
+        
         <>
-        <Facets >
+        {/* <Facets >
             {facets => {
-                console.log(`facets are: ${facets}`)
-                
+                // console.log(`facets are:`)
+                // console.log(facets)
                 return (
                     <div>
                         here are facets
                     </div>
                 )
             }}
-        </Facets>
+        </Facets> */}
             
             {/**ask questions */}
        
-            {/* <Filters.Facets searchOnChange={true} className='mr-8 text-left min-w-[12rem]'>
+            <Filters.Facets searchOnChange={true} className='mr-8 text-left min-w-[12rem]'>
                     {facets => facets.map((f, i) => {
                         console.log("f is: ", f)
                         if (f.options.length === 0) {
@@ -37,7 +38,7 @@ const FacetSection = () => {
                             )
                         
                     })}
-            </Filters.Facets> */}
+            </Filters.Facets>
         </>
     )
 }

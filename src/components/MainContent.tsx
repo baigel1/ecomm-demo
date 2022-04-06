@@ -1,6 +1,5 @@
 import React from 'react'
 import SearchResults from './SeachResults'
-import { ResultsCount } from '@yext/answers-react-components'
 import FacetSection from './FacetSection'
 
 /* 
@@ -16,12 +15,6 @@ const MainContent = () => {
         <>
 
             <FacetSection />
-
-            <ResultsCount 
-                customCssClasses={{
-                    resultCountText: "text-xl text-cyan-500"
-                }}
-            />
           
             <SearchResults />
             
