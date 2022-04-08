@@ -16,14 +16,14 @@ const SearchResults = () => {
     const verticalResults = useAnswersState(state => state.vertical.results) || [""];
     usePageSetupEffect("products");
 
-    useEffect(() => {
-        console.log(verticalResults)
+    // useEffect(() => {
+    //     console.log(verticalResults)
         
-    }, [verticalResults])
+    // }, [verticalResults])
 
     
     return (
-        <>
+        <div className="flex flex-col">
             {verticalResults.length !== 0 ?
             <ResultsCount 
                 customCssClasses={{
@@ -35,7 +35,7 @@ const SearchResults = () => {
             }
             <VerticalResults
                 displayAllOnNoResults={false}
-                customCssClasses={{ results: "text-left grid grid-cols-4 gap-6 ", container: "pt-6" }}
+                customCssClasses={{ results: "text-left grid grid-cols-6 gap-6 mx-6", container: "pt-6" }}
                 CardComponent={
                     ({ result }) => {
                         
@@ -50,6 +50,10 @@ const SearchResults = () => {
                                 mappingType: "FIELD"
                             },
                             description: {
+                                apiName: "richTextDescription",
+                                mappingType: "FIELD"
+                            },
+                            price: {
                                 apiName: "price.value",
                                 mappingType: "FIELD"
                             },
@@ -65,7 +69,7 @@ const SearchResults = () => {
                 }
 
             />
-        </>
+        </div>
 
 
 

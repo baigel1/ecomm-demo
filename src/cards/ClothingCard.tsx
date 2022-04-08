@@ -169,7 +169,8 @@ export interface StandardCardProps extends CardProps {
         description?: FieldData,
         cta1?: FieldData,
         cta2?: FieldData,
-        photoGallery?: FieldData
+        photoGallery?: FieldData,
+        price?: FieldData
     },
     /** Whether or not to show thumbs up/down buttons to provide feedback on the result card */
     showFeedbackButtons?: boolean,
@@ -185,6 +186,10 @@ const defaultFieldMappings: Record<string, FieldData> = {
     description: {
         mappingType: 'FIELD',
         apiName: 'description'
+    },
+    price: {
+        mappingType: 'FIELD',
+        apiName: 'price'
     },
     photoGallery: {
         mappingType: 'FIELD',
@@ -223,7 +228,7 @@ const builtInCssClasses: StandardCardCssClasses = {
     header: 'flex text-gray-800 font-medium',
     body: 'flex flex-col justify-end pt-2.5 text-base',
     descriptionContainer: 'w-full',
-    ctaContainer: 'flex flex-col justify-end ml-4 mt-4',
+    ctaContainer: 'flex flex-col my-4',
     cta1: 'min-w-max bg-slate-500 text-white font-medium rounded-lg py-2 px-5 shadow',
     cta2: 'min-w-max bg-white text-primary-600 font-medium rounded-lg py-2 px-5 mt-2 shadow',
     ordinal: 'mr-1.5 text-lg font-medium',
@@ -277,13 +282,11 @@ const ClothingCard = (props: StandardCardProps): JSX.Element => {
             //     reportAnalyticsEvent(result, 'CTA_CLICK');
             console.log('clicking cta')
         };
-        let labelValue = ""
-        labelValue = cta1 ? cta1.label : "no value"
-        console.log(labelValue)
+        
         return (
         <>
             {(cta1 ?? cta2) &&
-                <div className={cssClasses.ctaContainer}>
+                <div className={`${cssClasses.ctaContainer} flex items-start`}>
                     {cta1 && <button className={cssClasses.cta1} onClick={onClick}>{cta1.label}</button>}
                     {cta2 && <button className={cssClasses.cta2} onClick={onClick}>{cta2.label}</button>}
                 </div>
@@ -316,20 +319,29 @@ const ClothingCard = (props: StandardCardProps): JSX.Element => {
                     <img className="rounded-t-lg" style={{ width: "-webkit-fill-available" }} src={data.photoGallery[0].image.url} alt="image"></img>
                 </div>
             }
-            <div className="p-4">
+            <div className="p-4 flex flex-col h-full">
                 <div className={cssClasses.header}>
                     {showOrdinal && result.index && renderOrdinal(result.index)}
                     {data.title && renderTitle(data.title)}
                 </div>
-                {(data.description ?? data.cta1 ?? data.cta2) &&
+                {(data.description) &&
                     <div className={cssClasses.body}>
                         {data.description &&
                             <div className={cssClasses.descriptionContainer}>
-                                <span>${data.description}</span>
+                                <span>{`${data.description.substring(0, 150)}...`}</span>
                             </div>}
-                        {renderCTAs(data.cta1, data.cta2)}
+                        
                     </div>
                 }
+                
+                    <div className={`${cssClasses.body} mt-auto`}>
+                        { (data.price ?? data.cta1 ?? data.cta2) &&
+                            <div className={cssClasses.descriptionContainer}>
+                                <span>${data.price}</span>
+                            </div>}
+                            {renderCTAs(data.cta1, data.cta2)}
+                    </div>
+               
             </div>
 
         </div>
