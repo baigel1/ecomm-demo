@@ -16,10 +16,10 @@ const SearchResults = () => {
     const verticalResults = useAnswersState(state => state.vertical.results) || [""];
     usePageSetupEffect("products");
 
-    // useEffect(() => {
-    //     console.log(verticalResults)
+    useEffect(() => {
+        console.log(verticalResults)
         
-    // }, [verticalResults])
+    }, [verticalResults])
 
     
     return (
@@ -52,12 +52,12 @@ const SearchResults = () => {
                             description: {
                                 apiName: "price.value",
                                 mappingType: "FIELD"
+                            },
+                           
+                            cta1: {
+                                apiName: 'c_primaryCTA',
+                                mappingType: 'FIELD'
                             }
-                            // },
-                            // cta1: {
-                            //     apiName: 'c_primaryCTA.label',
-                            //     mappingType: 'FIELD'
-                            // }
                         }}
                     />
                     )

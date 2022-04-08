@@ -224,7 +224,7 @@ const builtInCssClasses: StandardCardCssClasses = {
     body: 'flex flex-col justify-end pt-2.5 text-base',
     descriptionContainer: 'w-full',
     ctaContainer: 'flex flex-col justify-end ml-4 mt-4',
-    cta1: 'min-w-max bg-primary-600 text-white font-medium rounded-lg py-2 px-5 shadow',
+    cta1: 'min-w-max bg-slate-500 text-white font-medium rounded-lg py-2 px-5 shadow',
     cta2: 'min-w-max bg-white text-primary-600 font-medium rounded-lg py-2 px-5 mt-2 shadow',
     ordinal: 'mr-1.5 text-lg font-medium',
     title: 'text-lg font-medium',
@@ -275,15 +275,21 @@ const ClothingCard = (props: StandardCardProps): JSX.Element => {
     function renderCTAs(cta1?: CtaData, cta2?: CtaData) {
         const onClick = () => {
             //     reportAnalyticsEvent(result, 'CTA_CLICK');
+            console.log('clicking cta')
         };
-        return (<>
+        let labelValue = ""
+        labelValue = cta1 ? cta1.label : "no value"
+        console.log(labelValue)
+        return (
+        <>
             {(cta1 ?? cta2) &&
                 <div className={cssClasses.ctaContainer}>
                     {cta1 && <button className={cssClasses.cta1} onClick={onClick}>{cta1.label}</button>}
                     {cta2 && <button className={cssClasses.cta2} onClick={onClick}>{cta2.label}</button>}
                 </div>
             }
-        </>);
+        </>
+        );
     }
 
     // TODO (cea2aj) Update this to render the ordinal once we get mocks from UX
@@ -307,7 +313,7 @@ const ClothingCard = (props: StandardCardProps): JSX.Element => {
         <div className={cssClasses.container}>
             {(data.photoGallery && data.photoGallery[0] && data.photoGallery[0].image.url) &&
                 <div>
-                    <img className="rounded-t-lg" style={{ width: "-webkit-fill-available" }} src={data.photoGallery[0].image.url}></img>
+                    <img className="rounded-t-lg" style={{ width: "-webkit-fill-available" }} src={data.photoGallery[0].image.url} alt="image"></img>
                 </div>
             }
             <div className="p-4">
@@ -319,7 +325,7 @@ const ClothingCard = (props: StandardCardProps): JSX.Element => {
                     <div className={cssClasses.body}>
                         {data.description &&
                             <div className={cssClasses.descriptionContainer}>
-                                <span>{data.description}</span>
+                                <span>${data.description}</span>
                             </div>}
                         {renderCTAs(data.cta1, data.cta2)}
                     </div>
