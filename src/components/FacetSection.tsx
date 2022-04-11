@@ -38,23 +38,14 @@ const FacetSection = () => {
               return null;
             }
 
-            if (f.fieldId == "c_category") {
-              return (
-                <Fragment key={f.fieldId}>
-                  <Filters.HierarchicalFacet facet={f} />{" "}
-                  <div className="w-full h-px bg-gray-200 my-4"></div>
-                  {i < facets.length - 1}
-                </Fragment>
-              );
-            }
-
             return (
               <div key={f.fieldId} className="md:w-40 mr-10">
+                  <hr className="border-t-4 slate-700 my-4"></hr>
                 <Filters.FilterGroup>
-                  {/* <div>{f.displayName}</div> */}
+                  
                   <Filters.CollapsibleLabel label={f.displayName} />
                   <Filters.CollapsibleSection>
-                    {/* <Filters.SearchInput /> */}
+                    <Filters.SearchInput /> {/* search bar within the collapsible section */}
                     {f.options.map((o) => (
                       <Filters.CheckboxOption
                         key={o.displayName}
@@ -63,7 +54,7 @@ const FacetSection = () => {
                       />
                     ))}
                   </Filters.CollapsibleSection>
-                  {/* {(i < facets.length - 1)} */}
+                  
                 </Filters.FilterGroup>
               </div>
             );
