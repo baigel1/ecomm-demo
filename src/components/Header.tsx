@@ -14,6 +14,7 @@ const Header = () => {
                 </div>
                 <div className="my-2 w-3/6 mt-10">
                     <SearchBar placeholder="search here..." />
+                    
                 </div>
                 
             </div>

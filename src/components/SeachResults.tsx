@@ -35,7 +35,7 @@ const SearchResults = () => {
             }
             <VerticalResults
                 displayAllOnNoResults={false}
-                customCssClasses={{ results: "text-left grid grid-cols-6 gap-6 mx-6", container: "pt-6" }}
+                customCssClasses={{ results: "text-left grid grid-cols-6 gap-6 mx-6"}}
                 CardComponent={
                     ({ result }) => {
                         

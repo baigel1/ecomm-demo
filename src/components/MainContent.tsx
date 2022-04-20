@@ -2,6 +2,7 @@ import React from 'react'
 import SearchResults from './SeachResults'
 import FacetSection from './FacetSection'
 
+
 /* 
 on top we want sorting controls
 under sorting we want facets on the left, then the search results next to it
@@ -17,6 +18,7 @@ const MainContent = () => {
             <FacetSection />
           
             <SearchResults />
+            
             
         </div>
     )
