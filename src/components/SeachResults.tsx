@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import { VerticalResults, ResultsCount } from '@yext/answers-react-components'
+import { VerticalResults, ResultsCount, AppliedFilters } from '@yext/answers-react-components'
 import ClothingCard from '../cards/ClothingCard'
 import { useAnswersState } from '@yext/answers-headless-react'
 import usePageSetupEffect from '../hooks/defaultInitialSearch';
@@ -29,10 +29,12 @@ const SearchResults = () => {
                 customCssClasses={{
                     resultCountText: "text-xl text-cyan-500"
                 }}
+                
             />
             :
             <div className="bg-slate-500 text-xl">No Results Available, Try another search!</div>
             }
+            <AppliedFilters/>
             <VerticalResults
                 displayAllOnNoResults={false}
                 customCssClasses={{ results: "text-left grid grid-cols-6 gap-6 mx-6"}}
