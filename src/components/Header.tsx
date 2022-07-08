@@ -1,6 +1,6 @@
 import React from 'react'
 import { SearchBar } from '@yext/answers-react-components'
-import logo from '../images/yext-logo.png'
+import logo from '../images/yextLogo.png'
 
 const Header = () => {
     return (
@@ -8,7 +8,7 @@ const Header = () => {
             
         
             <div className="flex flex-col items-center">
-                <img src={logo} className="h-10 my-5" alt="yext logo"/>
+                <img src={logo} className="h-40 my-5" alt="yext logo"/>
                 <div className="my-2 text-2xl">
                     Find some cool clothes below
                 </div>

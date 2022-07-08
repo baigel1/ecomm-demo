@@ -5,7 +5,12 @@ module.exports = {
     './node_modules/@yext/answers-react-components/lib/**/*.js'
   ],
   theme: {
+   
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms')({
+      strategy: 'class',
+    })
+  ],
 }
