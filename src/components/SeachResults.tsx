@@ -1,9 +1,7 @@
-import React, { useEffect } from "react";
 import {
   VerticalResults,
   ResultsCount,
   AppliedFilters,
-  StandardCard,
   DirectAnswer,
 } from "@yext/search-ui-react";
 import ClothingCard from "../cards/ClothingCard";

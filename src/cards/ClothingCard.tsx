@@ -1,4 +1,3 @@
-import React from "react";
 import { Result } from "@yext/search-headless-react";
 import get from "lodash/get";
 
@@ -250,15 +249,15 @@ export interface CtaData {
   linkType: string;
 }
 
-function isCtaData(data: unknown): data is CtaData {
-  if (typeof data !== "object" || data === null) {
-    return false;
-  }
-  const expectedKeys = ["label", "link", "linkType"];
-  return expectedKeys.every((key) => {
-    return key in data;
-  });
-}
+// function isCtaData(data: unknown): data is CtaData {
+//   if (typeof data !== "object" || data === null) {
+//     return false;
+//   }
+//   const expectedKeys = ["label", "link", "linkType"];
+//   return expectedKeys.every((key) => {
+//     return key in data;
+//   });
+// }
 
 /**
  * This Component renders the base result card.
@@ -335,7 +334,7 @@ const ClothingCard = (props: StandardCardProps): JSX.Element => {
               className="rounded-t-lg"
               style={{ width: "-webkit-fill-available" }}
               src={data.photoGallery[0].image.url}
-              alt="image"
+              alt="clothing"
             ></img>
           </div>
         )}
