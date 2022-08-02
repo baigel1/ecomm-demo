@@ -1,25 +1,21 @@
-import React from 'react';
-import Header from './components/Header';
-import { AnswersHeadlessProvider } from '@yext/answers-headless-react';
-import MainContent from './components/MainContent';
+import React from "react";
+import Header from "./components/Header";
+import { SearchHeadlessProvider } from "@yext/search-headless-react";
+import MainContent from "./components/MainContent";
 
-
-import './App.css';
+import "./App.css";
 
 function App() {
   return (
     <>
-  
-      <AnswersHeadlessProvider
-        apiKey='a59283fd20d998993e96988674ef4dbc'
-        experienceKey='h_blue_pim'
-        locale='en'
+      <SearchHeadlessProvider
+        apiKey="a59283fd20d998993e96988674ef4dbc"
+        experienceKey="h_blue_pim"
+        locale="en"
       >
         <Header />
         <MainContent />
-      </AnswersHeadlessProvider>
-    
-    
+      </SearchHeadlessProvider>
     </>
   );
 }

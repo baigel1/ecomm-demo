@@ -1,41 +1,46 @@
-import React from 'react';
-import { Result } from '@yext/answers-headless-react';
-import get from 'lodash/get';
+import React from "react";
+import { Result } from "@yext/search-headless-react";
+import get from "lodash/get";
 
 export interface CardProps {
-    /** The result data provided to the card for rendering. */
-    result: Result,
+  /** The result data provided to the card for rendering. */
+  result: Result;
 }
 
 // validation functions
-type InferTypeGuard<TypeGuard> = TypeGuard extends (data: any) => data is infer Type ? Type : never;
-
+type InferTypeGuard<TypeGuard> = TypeGuard extends (
+  data: any
+) => data is infer Type
+  ? Type
+  : never;
 
 export type TypeGuardRecord = Record<string, (data: any) => boolean>;
 
 export type ValidatedData<TypeGuards extends TypeGuardRecord> = Partial<{
-    [Property in keyof TypeGuards]: InferTypeGuard<TypeGuards[Property]>
+  [Property in keyof TypeGuards]: InferTypeGuard<TypeGuards[Property]>;
 }>;
 
 export function isString(data: any): data is string {
-    return typeof data === 'string';
+  return typeof data === "string";
 }
 
 export function validateData<TypeGuards extends TypeGuardRecord>(
-    data: any,
-    typeGuards: TypeGuards
+  data: any,
+  typeGuards: TypeGuards
 ): ValidatedData<TypeGuards> {
-    const validatedData: ValidatedData<TypeGuards> = {};
+  const validatedData: ValidatedData<TypeGuards> = {};
 
-    Object.entries(typeGuards).forEach(([key, typeCheck]) => {
-        if (typeCheck(data[key])) {
-            validatedData[key as keyof TypeGuards] = data[key];
-        } else {
-            console.warn(`The validation for the key: ${key} failed, so the data was omitted.`);
-        }
-    });
+  Object.entries(typeGuards).forEach(([key, typeCheck]) => {
+    if (typeCheck(data[key])) {
+      validatedData[key as keyof TypeGuards] = data[key];
+    } else {
+      console.warn(
+        `The validation for the key: ${key} failed, so the data was omitted.`
+      );
+    }
+  });
 
-    return validatedData;
+  return validatedData;
 }
 
 //end validation functions
@@ -72,26 +77,27 @@ export function validateData<TypeGuards extends TypeGuardRecord>(
  * @returns An object of fields to data
  */
 export function applyFieldMappings(
-    rawData: Record<string, unknown>,
-    fieldMappings: Partial<Record<string, FieldData>>,
+  rawData: Record<string, unknown>,
+  fieldMappings: Partial<Record<string, FieldData>>
 ): Record<string, any> {
+  if (!fieldMappings) {
+    return {};
+  }
 
-    if (!fieldMappings) {
-        return {};
-    }
-
-    return Object.entries(fieldMappings)
-        .reduce((acc: Record<string, any>, [field, mapping]) => {
-            if (!mapping) {
-                return acc;
-            }
-            if (mapping.mappingType === 'CONSTANT') {
-                acc[field] = mapping.value;
-            } else {
-                acc[field] = applyFieldDataPath(rawData, mapping);
-            }
-            return acc;
-        }, {});
+  return Object.entries(fieldMappings).reduce(
+    (acc: Record<string, any>, [field, mapping]) => {
+      if (!mapping) {
+        return acc;
+      }
+      if (mapping.mappingType === "CONSTANT") {
+        acc[field] = mapping.value;
+      } else {
+        acc[field] = applyFieldDataPath(rawData, mapping);
+      }
+      return acc;
+    },
+    {}
+  );
 }
 
 /**
@@ -102,13 +108,13 @@ export function applyFieldMappings(
 export type FieldData = FieldDataConstant | FieldDataPath;
 
 function applyFieldDataPath(data: any, fieldMap: FieldDataPath): any {
-    if (!Array.isArray(fieldMap.apiName)) {
-        return get(data, fieldMap.apiName);
-    }
-    const apiNameWithData = fieldMap.apiName.find(apiName => get(data, apiName));
-    return apiNameWithData
-        ? get(data, apiNameWithData)
-        : undefined;
+  if (!Array.isArray(fieldMap.apiName)) {
+    return get(data, fieldMap.apiName);
+  }
+  const apiNameWithData = fieldMap.apiName.find((apiName) =>
+    get(data, apiName)
+  );
+  return apiNameWithData ? get(data, apiNameWithData) : undefined;
 }
 
 /**
@@ -117,10 +123,10 @@ function applyFieldDataPath(data: any, fieldMap: FieldDataPath): any {
  * @public
  */
 export type FieldDataConstant = {
-    /** Indicates that the field data is constant. */
-    mappingType: 'CONSTANT',
-    /** The constant field data value. */
-    value: string
+  /** Indicates that the field data is constant. */
+  mappingType: "CONSTANT";
+  /** The constant field data value. */
+  value: string;
 };
 
 /**
@@ -129,30 +135,30 @@ export type FieldDataConstant = {
  * @public
  */
 export type FieldDataPath = {
-    /** Indicates that the field data is mapped from the Result's raw data */
-    mappingType: 'FIELD',
-    /** The api name which denotes the path to the field data.
-     *
-     * @remarks
-     * The path is a string separated by periods '.'.
-     * An array may also be supplied to denote fallbacks.
-     *
-     * @example
-     * A result's rawData may contain the following object:
-     * ```
-     * {
-     *    title: {
-     *       fullName: 'Yext Answers'
-     *       subtitle: 'An AI Search Platform'
-     *    }
-     * }
-     * ```
-     * To indicate the subtitle, the apiName would be 'title.subtitle'.
-     * Fallbacks could be indicated with an array such as:
-     * `['title.fullName', 'title.subtitle']`
-     * In this example, if the title is not present, it will fallback to the subtitle.
-    */
-    apiName: string | string[]
+  /** Indicates that the field data is mapped from the Result's raw data */
+  mappingType: "FIELD";
+  /** The api name which denotes the path to the field data.
+   *
+   * @remarks
+   * The path is a string separated by periods '.'.
+   * An array may also be supplied to denote fallbacks.
+   *
+   * @example
+   * A result's rawData may contain the following object:
+   * ```
+   * {
+   *    title: {
+   *       fullName: 'Yext Answers'
+   *       subtitle: 'An AI Search Platform'
+   *    }
+   * }
+   * ```
+   * To indicate the subtitle, the apiName would be 'title.subtitle'.
+   * Fallbacks could be indicated with an array such as:
+   * `['title.fullName', 'title.subtitle']`
+   * In this example, if the title is not present, it will fallback to the subtitle.
+   */
+  apiName: string | string[];
 };
 
 /**
@@ -161,48 +167,48 @@ export type FieldDataPath = {
  * @public
  */
 export interface StandardCardProps extends CardProps {
-    /** Whether or not to show an ordinal for numbering the card. */
-    showOrdinal?: boolean,
-    /** Custom mappings for the data fields used in the card. */
-    fieldMappings?: {
-        title?: FieldData,
-        description?: FieldData,
-        cta1?: FieldData,
-        cta2?: FieldData,
-        photoGallery?: FieldData,
-        price?: FieldData
-    },
-    /** Whether or not to show thumbs up/down buttons to provide feedback on the result card */
-    showFeedbackButtons?: boolean,
-    /** CSS classes for customizing the component styling. */
-    customCssClasses?: StandardCardCssClasses,
+  /** Whether or not to show an ordinal for numbering the card. */
+  showOrdinal?: boolean;
+  /** Custom mappings for the data fields used in the card. */
+  fieldMappings?: {
+    title?: FieldData;
+    description?: FieldData;
+    cta1?: FieldData;
+    cta2?: FieldData;
+    photoGallery?: FieldData;
+    price?: FieldData;
+  };
+  /** Whether or not to show thumbs up/down buttons to provide feedback on the result card */
+  showFeedbackButtons?: boolean;
+  /** CSS classes for customizing the component styling. */
+  customCssClasses?: StandardCardCssClasses;
 }
 
 const defaultFieldMappings: Record<string, FieldData> = {
-    title: {
-        mappingType: 'FIELD',
-        apiName: 'name'
-    },
-    description: {
-        mappingType: 'FIELD',
-        apiName: 'description'
-    },
-    price: {
-        mappingType: 'FIELD',
-        apiName: 'price'
-    },
-    photoGallery: {
-        mappingType: 'FIELD',
-        apiName: 'photoGallery'
-    },
-    cta1: {
-        mappingType: 'FIELD',
-        apiName: 'c_primaryCTA'
-    },
-    cta2: {
-        mappingType: 'FIELD',
-        apiName: 'c_secondaryCTA'
-    },
+  title: {
+    mappingType: "FIELD",
+    apiName: "name",
+  },
+  description: {
+    mappingType: "FIELD",
+    apiName: "description",
+  },
+  price: {
+    mappingType: "FIELD",
+    apiName: "price",
+  },
+  photoGallery: {
+    mappingType: "FIELD",
+    apiName: "photoGallery",
+  },
+  cta1: {
+    mappingType: "FIELD",
+    apiName: "c_primaryCTA",
+  },
+  cta2: {
+    mappingType: "FIELD",
+    apiName: "c_secondaryCTA",
+  },
 };
 
 /**
@@ -211,45 +217,47 @@ const defaultFieldMappings: Record<string, FieldData> = {
  * @public
  */
 export interface StandardCardCssClasses {
-    container?: string,
-    header?: string,
-    body?: string,
-    descriptionContainer?: string,
-    ctaContainer?: string,
-    cta1?: string,
-    cta2?: string,
-    ordinal?: string,
-    title?: string,
-    titleLink?: string
+  container?: string;
+  header?: string;
+  body?: string;
+  descriptionContainer?: string;
+  ctaContainer?: string;
+  cta1?: string;
+  cta2?: string;
+  ordinal?: string;
+  title?: string;
+  titleLink?: string;
 }
 
 const builtInCssClasses: StandardCardCssClasses = {
-    container: "flex flex-col justify-start rounded-lg shadow-lg bg-white hover:shadow-xl hover:cursor-pointer",
-    header: 'flex text-gray-800 font-medium',
-    body: 'flex flex-col justify-end pt-2.5 text-base',
-    descriptionContainer: 'w-full',
-    ctaContainer: 'flex flex-col my-4',
-    cta1: 'min-w-max bg-slate-500 text-white font-medium rounded-lg py-2 px-5 shadow',
-    cta2: 'min-w-max bg-white text-primary-600 font-medium rounded-lg py-2 px-5 mt-2 shadow',
-    ordinal: 'mr-1.5 text-lg font-medium',
-    title: 'text-lg font-medium',
-    titleLink: 'text-lg font-medium text-primary-600 cursor-pointer hover:underline focus:underline',
+  container:
+    "flex flex-col justify-start rounded-lg shadow-lg bg-white hover:shadow-xl hover:cursor-pointer",
+  header: "flex text-gray-800 font-medium",
+  body: "flex flex-col justify-end pt-2.5 text-base",
+  descriptionContainer: "w-full",
+  ctaContainer: "flex flex-col my-4",
+  cta1: "min-w-max bg-slate-500 text-white font-medium rounded-lg py-2 px-5 shadow",
+  cta2: "min-w-max bg-white text-primary-600 font-medium rounded-lg py-2 px-5 mt-2 shadow",
+  ordinal: "mr-1.5 text-lg font-medium",
+  title: "text-lg font-medium",
+  titleLink:
+    "text-lg font-medium text-primary-600 cursor-pointer hover:underline focus:underline",
 };
 
 export interface CtaData {
-    label: string,
-    link: string,
-    linkType: string
+  label: string;
+  link: string;
+  linkType: string;
 }
 
 function isCtaData(data: unknown): data is CtaData {
-    if (typeof data !== 'object' || data === null) {
-        return false;
-    }
-    const expectedKeys = ['label', 'link', 'linkType'];
-    return expectedKeys.every(key => {
-        return key in data;
-    });
+  if (typeof data !== "object" || data === null) {
+    return false;
+  }
+  const expectedKeys = ["label", "link", "linkType"];
+  return expectedKeys.every((key) => {
+    return key in data;
+  });
 }
 
 /**
@@ -262,90 +270,101 @@ function isCtaData(data: unknown): data is CtaData {
  * @returns A React element for the result card
  */
 const ClothingCard = (props: StandardCardProps): JSX.Element => {
-    const {
-        fieldMappings: customFieldMappings,
-        showOrdinal,
-        result
-    } = props;
-    const cssClasses = builtInCssClasses 
+  const { fieldMappings: customFieldMappings, showOrdinal, result } = props;
+  const cssClasses = builtInCssClasses;
 
-    const transformedFieldData = applyFieldMappings(result.rawData, {
-        ...defaultFieldMappings,
-        ...customFieldMappings
-    });
+  const transformedFieldData = applyFieldMappings(result.rawData, {
+    ...defaultFieldMappings,
+    ...customFieldMappings,
+  });
 
-    const data = transformedFieldData
+  const data = transformedFieldData;
 
-    // TODO (cea2aj) We need to handle the various linkType so these CTAs are clickable
-    function renderCTAs(cta1?: CtaData, cta2?: CtaData) {
-        const onClick = () => {
-            //     reportAnalyticsEvent(result, 'CTA_CLICK');
-            console.log('clicking cta')
-        };
-        
-        return (
-        <>
-            {(cta1 ?? cta2) &&
-                <div className={`${cssClasses.ctaContainer} flex items-start`}>
-                    {cta1 && <button className={cssClasses.cta1} onClick={onClick}>{cta1.label}</button>}
-                    {cta2 && <button className={cssClasses.cta2} onClick={onClick}>{cta2.label}</button>}
-                </div>
-            }
-        </>
-        );
-    }
-
-    // TODO (cea2aj) Update this to render the ordinal once we get mocks from UX
-    function renderOrdinal(_index: number) {
-       
-        return null;
-    }
-
-    function renderTitle(title: string) {
-        const onClick = () => {
-            console.log("clicking")
-        }
-        return (
-            result.link
-                ? <a href={result.link} className={cssClasses.titleLink} onClick={onClick}>{title}</a>
-                : <div className={cssClasses.title}>{title}</div>
-        );
-    }
+  // TODO (cea2aj) We need to handle the various linkType so these CTAs are clickable
+  function renderCTAs(cta1?: CtaData, cta2?: CtaData) {
+    const onClick = () => {
+      //     reportAnalyticsEvent(result, 'CTA_CLICK');
+      console.log("clicking cta");
+    };
 
     return (
-        <div className={cssClasses.container}>
-            {(data.photoGallery && data.photoGallery[0] && data.photoGallery[0].image.url) &&
-                <div>
-                    <img className="rounded-t-lg" style={{ width: "-webkit-fill-available" }} src={data.photoGallery[0].image.url} alt="image"></img>
-                </div>
-            }
-            <div className="p-4 flex flex-col h-full">
-                <div className={cssClasses.header}>
-                    {showOrdinal && result.index && renderOrdinal(result.index)}
-                    {data.title && renderTitle(data.title)}
-                </div>
-                {(data.description) &&
-                    <div className={cssClasses.body}>
-                        {data.description &&
-                            <div className={cssClasses.descriptionContainer}>
-                                <span>{`${data.description.substring(0, 150)}...`}</span>
-                            </div>}
-                        
-                    </div>
-                }
-                
-                    <div className={`${cssClasses.body} mt-auto`}>
-                        { (data.price ?? data.cta1 ?? data.cta2) &&
-                            <div className={cssClasses.descriptionContainer}>
-                                <span>${data.price}</span>
-                            </div>}
-                            {renderCTAs(data.cta1, data.cta2)}
-                    </div>
-               
-            </div>
-
-        </div>
+      <>
+        {(cta1 ?? cta2) && (
+          <div className={`${cssClasses.ctaContainer} flex items-start`}>
+            {cta1 && (
+              <button className={cssClasses.cta1} onClick={onClick}>
+                {cta1.label}
+              </button>
+            )}
+            {cta2 && (
+              <button className={cssClasses.cta2} onClick={onClick}>
+                {cta2.label}
+              </button>
+            )}
+          </div>
+        )}
+      </>
     );
-}
+  }
+
+  // TODO (cea2aj) Update this to render the ordinal once we get mocks from UX
+  function renderOrdinal(_index: number) {
+    return null;
+  }
+
+  function renderTitle(title: string) {
+    const onClick = () => {
+      console.log("clicking");
+    };
+    return result.link ? (
+      <a href={result.link} className={cssClasses.titleLink} onClick={onClick}>
+        {title}
+      </a>
+    ) : (
+      <div className={cssClasses.title}>{title}</div>
+    );
+  }
+
+  return (
+    <div className={cssClasses.container}>
+      {data.photoGallery &&
+        data.photoGallery[0] &&
+        data.photoGallery[0].image.url && (
+          <div>
+            <img
+              className="rounded-t-lg"
+              style={{ width: "-webkit-fill-available" }}
+              src={data.photoGallery[0].image.url}
+              alt="image"
+            ></img>
+          </div>
+        )}
+      <div className="p-4 flex flex-col h-full">
+        <div className={cssClasses.header}>
+          {showOrdinal && result.index && renderOrdinal(result.index)}
+          {data.title && renderTitle(data.title)}
+        </div>
+        {data.description && (
+          <div className={cssClasses.body}>
+            {data.description && (
+              <div className={cssClasses.descriptionContainer}>
+                <span>{`${data.description.substring(0, 150)}...`}</span>
+              </div>
+            )}
+          </div>
+        )}
+
+        <div className={`${cssClasses.body} mt-auto`}>
+          {(data.price ?? data.cta1 ?? data.cta2) && (
+            <div className={cssClasses.descriptionContainer}>
+              <span>${data.price}</span>
+            </div>
+          )}
+          {renderCTAs(data.cta1, data.cta2)}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default ClothingCard;
