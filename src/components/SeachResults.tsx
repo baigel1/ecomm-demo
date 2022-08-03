@@ -20,10 +20,10 @@ const SearchResults = () => {
   const redirectUrl = useSearchState((state) =>
     state.queryRules.actions?.find((i) => i?.data?.redirectUrl)
   );
-  if (redirectUrl) {
-    console.log("redirect url is: ", redirectUrl?.data?.redirectUrl);
-    const newUrl = JSON.stringify(redirectUrl?.data?.redirectUrl);
-    window.location.replace(newUrl);
+  if (redirectUrl && redirectUrl.data) {
+    const newUrl: any = redirectUrl.data.redirectUrl;
+
+    window.location.href = newUrl;
   }
 
   return (
