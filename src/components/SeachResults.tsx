@@ -15,6 +15,17 @@ const SearchResults = () => {
   ];
   usePageSetupEffect("products");
 
+  // something like this...
+
+  const redirectUrl = useSearchState((state) =>
+    state.queryRules.actions?.find((i) => i?.data?.redirectUrl)
+  );
+  if (redirectUrl) {
+    console.log("redirect url is: ", redirectUrl?.data?.redirectUrl);
+    const newUrl = JSON.stringify(redirectUrl?.data?.redirectUrl);
+    window.location.replace(newUrl);
+  }
+
   return (
     <div className="flex flex-col">
       {verticalResults.length !== 0 ? (
