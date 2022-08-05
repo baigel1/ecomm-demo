@@ -15,8 +15,7 @@ const SearchResults = () => {
   ];
   usePageSetupEffect("products");
 
-  // something like this...
-
+  //redirects
   const redirectUrl = useSearchState((state) =>
     state.queryRules.actions?.find((i) => i?.data?.redirectUrl)
   );
