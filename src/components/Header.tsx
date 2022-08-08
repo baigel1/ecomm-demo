@@ -28,7 +28,11 @@ const Header = () => {
     return (
       <div className="flex flex-col items-center cursor-pointer hover:bg-gray-100 ">
         {productThumbnail && (
-          <img className="w-32" src={productThumbnail.url} />
+          <img
+            className="w-32"
+            src={productThumbnail.url}
+            alt="clothing preview"
+          />
         )}
         <div className="font-semibold pl-3">{product.name}</div>
       </div>
